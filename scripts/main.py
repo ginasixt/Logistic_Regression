@@ -64,29 +64,16 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 print("\n=== Modellbewertung ===")
-# Wieviele Vorhersagen waren korrekt?
+
 print("Accuracy:", accuracy_score(y_test, y_pred))
 # Kein Diabetes: [[TN   FP]
 # Ja Diabetes:    [FN   TP]]
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-# Classification Report:
-#                precision    recall  f1-score   support
 
-#          0.0       0.86      0.98      0.92     38876
-#          1.0       0.54      0.15      0.24      7019
-# Das Bedeutet, das Modell hat eine hohe Genauigkeit (86% für Nicht-Diabetiker),
-# aber eine niedrige Sensitivität (15% für Diabetiker).
-
-#     accuracy                           0.85     45895
-#    macro avg       0.70      0.57      0.58     45895
-# weighted avg       0.81      0.85      0.81     45895
-# Precision:    Gesammt Vorhersagegenauigkeit
-# Macro Avg:    Durchschnitt von Klasse 0 und 1 – gleich gewichtet
-# Weighted Av:  Durchschnitt, gewichtet nach Klassenhäufigkeit
 
 print("Classification Report:\n", classification_report(y_test, y_pred))
 
-# === 8. Feature-Wichtigkeit anzeigen ===
+# Feature Gewichtungen
 coeff_df = pd.DataFrame({
     "Feature": X.columns,
     "Coefficient": model.coef_[0],
@@ -96,7 +83,7 @@ coeff_df = pd.DataFrame({
 print("\n=== Einfluss der Features (Odds Ratios) ===")
 print(coeff_df)
 
-# === 9. Modell & Skalierer speichern ===
+# Modell und skallierung speichern
 os.makedirs("models", exist_ok=True)
 joblib.dump(model, "models/logreg_diabetes.pkl")
 joblib.dump(scaler, "models/scaler.pkl")
